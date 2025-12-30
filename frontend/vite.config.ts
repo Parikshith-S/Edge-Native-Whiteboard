@@ -12,8 +12,9 @@ export default defineConfig({
       },
       // Proxy websockets
       '/ws': {
-        target: 'ws://127.0.0.1:8787',
+        target: 'http://127.0.0.1:8787',
         ws: true,
+        changeOrigin: true,
       }
     }
   }
