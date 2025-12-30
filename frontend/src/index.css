@@ -2,11 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+/* CRITICAL: Ensure the root container fills the screen */
 html,
 body,
 #root {
   height: 100%;
+  width: 100%;
   margin: 0;
   overflow: hidden;
-  /* Prevent scrolling on canvas */
+  /* Prevent scrolling */
 }
