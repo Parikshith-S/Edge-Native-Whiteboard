@@ -64,18 +64,19 @@ export const useCanvas = () => {
     ctx.moveTo(newPoint.x, newPoint.y);
   };
 
-  const stopDrawing = () => {
-    if (!isDrawing.current) return;
+  const stopDrawing = (onDrawEnd?: (stroke: DrawStroke) => void) => {
+    if (!isDrawing.current || !currentStroke.current) return;
 
+    // ... existing cleanup code ...
     isDrawing.current = false;
-
-    // Close the path visually
     const ctx = canvasRef.current?.getContext('2d');
-    if (ctx) {
-      ctx.beginPath();
+    if (ctx) ctx.beginPath();
+
+    // NEW: Emit the finished stroke
+    if (onDrawEnd) {
+      onDrawEnd(currentStroke.current);
     }
 
-    // In Phase 3, we will emit `currentStroke.current` to WebSocket here
     currentStroke.current = null;
   };
 
