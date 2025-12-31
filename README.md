@@ -31,11 +31,13 @@ graph TD
     L --> W
     W -- Get Room Stub --> DO
 
-    style DO fill:#ff9900,stroke:#333,stroke-width:2px,color:#fff
-    style W fill:#f38020,stroke:#333,stroke-width:2px,color:#fff
-    style A fill:#61dafb,stroke:#333
-    style B fill:#61dafb,stroke:#333
-    style C fill:#61dafb,stroke:#333
+    %% Neutral, contrast-safe styling
+    style A fill:#f5f5f5,stroke:#222,stroke-width:1.5px,color:#111
+    style B fill:#f5f5f5,stroke:#222,stroke-width:1.5px,color:#111
+    style C fill:#f5f5f5,stroke:#222,stroke-width:1.5px,color:#111
+    style L fill:#eaeaea,stroke:#333,stroke-width:1.5px,color:#111
+    style W fill:#dedede,stroke:#111,stroke-width:2px,color:#000
+    style DO fill:#cfcfcf,stroke:#000,stroke-width:2px,color:#000
 
 ```
 
