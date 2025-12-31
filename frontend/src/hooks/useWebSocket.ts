@@ -9,9 +9,11 @@ export const useWebSocket = (roomId: string) => {
 
   useEffect(() => {
     // 1. Determine WebSocket URL (handling dev vs prod)
-    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+    //const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+    const backendUrl = import.meta.env.VITE_BACKEND_URL || 'ws://127.0.0.1:8787';
     // Use the Vite proxy path '/ws' we set up earlier
-    const wsUrl = `${protocol}//${window.location.host}/ws/${roomId}`;
+    //const wsUrl = `${protocol}//${window.location.host}/ws/${roomId}`;
+    const wsUrl = `${backendUrl}/ws/${roomId}`;
 
     const socket = new WebSocket(wsUrl);
     ws.current = socket;

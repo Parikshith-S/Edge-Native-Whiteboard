@@ -4,7 +4,7 @@ import { useWebSocket } from '../hooks/useWebSocket';
 
 const Canvas: React.FC = () => {
   const { canvasRef, startDrawing, draw, stopDrawing } = useCanvas();
-  // Hardcoding room 'test-room' for now
+  // Using 'test-room' for the demo. In a real app, this would be dynamic.
   const { remoteStrokes, sendStroke } = useWebSocket('test-room');
 
   // Effect to draw remote strokes coming from other users
@@ -15,7 +15,6 @@ const Canvas: React.FC = () => {
     remoteStrokes.forEach((stroke) => {
       if (stroke.points.length < 2) return;
 
-      // Draw the incoming stroke
       ctx.strokeStyle = stroke.color;
       ctx.lineWidth = stroke.strokeWidth;
       ctx.lineCap = 'round';
@@ -34,16 +33,39 @@ const Canvas: React.FC = () => {
         ref={canvasRef}
         onMouseDown={startDrawing}
         onMouseMove={draw}
-        onMouseUp={() => {
-          stopDrawing(sendStroke);
-        }}
+        onMouseUp={() => stopDrawing(sendStroke)}
         onMouseLeave={() => stopDrawing(sendStroke)}
+        onTouchStart={startDrawing as any} // Basic touch support
+        onTouchMove={draw as any}
+        onTouchEnd={() => stopDrawing(sendStroke)}
         className="absolute top-0 left-0 touch-none cursor-crosshair"
       />
 
-      <div className="absolute top-4 left-4 bg-white px-4 py-2 rounded-lg shadow-md border border-gray-200 pointer-events-none">
-        <h1 className="text-sm font-bold text-gray-800">Edge Whiteboard</h1>
-        <p className="text-xs text-green-600 font-medium">● Live Sync Active</p>
+      {/* UI Overlay */}
+      <div className="absolute top-4 left-4 pointer-events-none">
+        <div className="bg-white/90 backdrop-blur-sm px-5 py-4 rounded-xl shadow-lg border border-gray-200">
+          <div className="flex items-center gap-2 mb-1">
+            <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+            <h1 className="text-lg font-bold text-gray-900 tracking-tight">Edge Whiteboard</h1>
+          </div>
+          <p className="text-xs text-gray-500 font-medium mb-3">● Live Sync Active</p>
+
+          <div className="space-y-1 border-t border-gray-100 pt-3">
+            <p className="text-xs text-gray-600">
+              <span className="font-semibold">How to use:</span> Click & drag to draw.
+            </p>
+            <p className="text-xs text-gray-600">
+              Open this URL on another device to see it sync in real-time!
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Designer Credit */}
+      <div className="absolute bottom-4 right-4 pointer-events-none opacity-50 hover:opacity-100 transition-opacity">
+        <p className="text-xs text-gray-400 font-medium">
+          Designed by Parikshith Saraswathi
+        </p>
       </div>
     </div>
   );
